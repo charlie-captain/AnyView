@@ -12,11 +12,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 
 import com.example.thatnight.view.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by thatnight on 2017.10.13.
@@ -92,6 +95,7 @@ public class WaveView extends View {
         }
         mPath.lineTo(mWidth, mHeight);
         mPath.lineTo(0, mHeight);
+        mPath.close();
         canvas.drawPath(mPath, mPaint);
     }
 
@@ -110,7 +114,9 @@ public class WaveView extends View {
         mHandler.sendEmptyMessage(1);
     }
 
-
+    /*
+        wave start flow
+     */
     public void startAnimation() {
         final ValueAnimator animator = ValueAnimator.ofFloat(0, mWaveWidth);
         animator.setInterpolator(new LinearInterpolator());
@@ -126,9 +132,27 @@ public class WaveView extends View {
         animator.start();
     }
 
+    /*
 
+     */
+    public void changeHeightAnim(final int percent) {
+        ValueAnimator animator = ValueAnimator.ofFloat(mWaveHeight, mHeight * percent / 100);
+        Log.d(TAG, "changeHeightAnim: " + mHeight * percent / 100);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(mWaveDuration);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mWaveHeight = (float) animation.getAnimatedValue();
+//                postInvalidate();
+                Log.d(TAG, "onAnimationUpdate: " + mWaveHeight);
+            }
+        });
+        animator.start();
+    }
 
     public boolean isInit() {
         return isInit;
     }
+
 }

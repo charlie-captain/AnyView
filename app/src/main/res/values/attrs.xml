@@ -6,4 +6,11 @@
         <attr name="wave_duration" format="integer"/>
         <attr name="wave_color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="DrawView">
+        <attr name="normal_color" format="color"/>
+        <attr name="normal_background" format="color"/>
+        <attr name="normal_thickness" format="integer"/>
+
+    </declare-styleable>
 </resources>
